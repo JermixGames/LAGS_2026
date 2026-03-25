@@ -6,6 +6,7 @@ public class PassengerSystem : MonoBehaviour
     public static PassengerSystem Instance;
 
     [Header("Estadísticas del Viaje")]
+    public int capacidadMaximaBus = 45; // Para verificar el Bus Lleno
     public int pasajerosActuales = 0;
     public int dineroActual = 0;
     public int pasajerosEnojados = 0;
@@ -38,10 +39,18 @@ public class PassengerSystem : MonoBehaviour
         // Suben entre 5 a 8 pasajeros normales
         int nuevosPasajeros = Random.Range(5, 9);
         pasajerosActuales += nuevosPasajeros;
-
-        dineroActual += nuevosPasajeros * 25; // Pagan completo
+        dineroActual += nuevosPasajeros * 25;
 
         Debug.Log($"✅ ¡Se subieron {nuevosPasajeros} pasajeros! Llevas {pasajerosActuales} cabezas y {dineroActual} centavos.");
+
+        // CONDICIÓN: Si sobrepasamos la capacidad, gritamos
+        if (pasajerosActuales >= capacidadMaximaBus)
+        {
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.ReproducirBusLleno();
+
+            Debug.Log("¡BUS LLENO! 'Móntense, los puestos de la izquierda son de a tres'");
+        }
 
         CheckForPowerUpPassenger();
     }

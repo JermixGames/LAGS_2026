@@ -2519,12 +2519,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerBusController
   inputHandler: {fileID: 306060023}
   rb: {fileID: 306060022}
-  fuerzaMotor: 3000
+  fuerzaMotor: 2000
   velocidadMaximaNormal: 120
   velocidadMaximaReversa: 40
   fuerzaFrenado: 120
-  velocidadGiro: 80
-  retrasoGiro: 3
+  velocidadGiro: 60
+  retrasoGiro: 4
   velocidadActualKmh: 1.14
 --- !u!54 &306060022
 Rigidbody:

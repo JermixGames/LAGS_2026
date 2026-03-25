@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections.Generic;
+
 
 // Este script se le pone a los cubos invisibles (Triggers) que actúan como "Parada de Bus".
 public class BusStop : MonoBehaviour
@@ -7,8 +9,19 @@ public class BusStop : MonoBehaviour
     public float tiempoRecoleccion = 5f; // Según tus instrucciones, 5 segundos para recoger
     public bool paradaCompletada = false;
 
+    [Header("Visuales y Audio (Pavo y Pasajeros)")]
+    public GameObject pavoPrefab;
+    public GameObject capsulaPasajeroPrefab;
+    public Transform puntoSpawnPavo;
+    public Transform[] puntosSpawnCapsulas; // Varios puntos donde aparecerán
+    public AudioClip audioLlamadoRuta;
+
     private float temporizador = 0f;
     private bool jugadorEnParada = false;
+    private bool procesoIniciado = false;
+
+    private GameObject pavoInstanciado;
+    private List<GameObject> capsulasInstanciadas = new List<GameObject>();
     private PlayerBusController busPlayer;
 
     void OnTriggerEnter(Collider other)
@@ -39,10 +52,16 @@ public class BusStop : MonoBehaviour
     {
         if (jugadorEnParada && !paradaCompletada && busPlayer != null)
         {
-            // REGLA: Player MUST stop at 0 speed.
-            // Usamos < 1 km/h para dar un pequeñísimo margen, en Unity 0 físico es a veces molesto.
+            // REGLA: Player MUST stop at 0 speed. (Margen de 1km/h)
             if (busPlayer.velocidadActualKmh < 1f)
             {
+                // PASO 1 y 2: El jugador frenó, iniciamos el proceso visual
+                if (!procesoIniciado)
+                {
+                    IniciarProcesoVisual();
+                }
+
+                // PASO 4: Wait pickup time
                 temporizador += Time.deltaTime;
 
                 if (temporizador >= tiempoRecoleccion)
@@ -50,19 +69,63 @@ public class BusStop : MonoBehaviour
                     paradaCompletada = true;
                     Debug.Log("¡Pasajeros a bordo! Arranca.");
 
-                    // Avisamos al Manager principal que esta parada fue todo un éxito
                     StopManager.Instance.ParadaExitosa(this);
-
-                    // Apagamos el color de esta parada o cambiamos su luz
                     CambiarColor(Color.green);
+
+                    // PASO 5: Destruir visuales
+                    FinalizarProcesoVisual();
                 }
             }
             else
             {
-                // Si el bus se sigue moviendo dentro de la parada, no cuenta el tiempo
+                // Si el bus se sigue moviendo o acelera antes de tiempo
+                if (procesoIniciado) FinalizarProcesoVisual(); // El Pavo se asusta y se va
                 temporizador = 0f;
             }
         }
+    }
+
+    private void IniciarProcesoVisual()
+    {
+        procesoIniciado = true;
+
+        // Spawn Pavo
+        if (pavoPrefab != null && puntoSpawnPavo != null)
+        {
+            pavoInstanciado = Instantiate(pavoPrefab, puntoSpawnPavo.position, puntoSpawnPavo.rotation);
+            pavoInstanciado.tag = "Pavo"; // Asignar tag "Pavo" según regla
+        }
+
+        // Spawn Capsulas
+        if (capsulaPasajeroPrefab != null)
+        {
+            foreach (Transform t in puntosSpawnCapsulas)
+            {
+                GameObject capsula = Instantiate(capsulaPasajeroPrefab, t.position, t.rotation);
+                capsulasInstanciadas.Add(capsula);
+            }
+        }
+
+        // Play audio
+        if (audioLlamadoRuta != null && AudioManager.Instance != null)
+        {
+            AudioManager.Instance.ReproducirAudioEspecial(audioLlamadoRuta);
+        }
+    }
+
+    private void FinalizarProcesoVisual()
+    {
+        procesoIniciado = false;
+
+        // Destroy Pavo
+        if (pavoInstanciado != null) Destroy(pavoInstanciado);
+
+        // Destroy Passenger capsules
+        foreach (var c in capsulasInstanciadas)
+        {
+            if (c != null) Destroy(c);
+        }
+        capsulasInstanciadas.Clear();
     }
 
     public void ForzarFalla()
@@ -76,7 +139,6 @@ public class BusStop : MonoBehaviour
         var render = GetComponent<Renderer>();
         if (render != null)
         {
-            render.material.color = color;
         }
     }
 }
