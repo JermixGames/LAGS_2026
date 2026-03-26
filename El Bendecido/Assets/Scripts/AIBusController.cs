@@ -36,10 +36,24 @@ public class AIBusController : MonoBehaviour
                 Transform destino = waypoints[puntoActual];
                 agent.SetDestination(destino.position);
 
-                // Si está muy cerca del waypoint, simula que va a recoger pasajeros
+                // Si está muy cerca del waypoint
                 if (Vector3.Distance(transform.position, destino.position) < 4f)
                 {
-                    estadoActual = AIState.Stopping;
+                    // VERIFICACIÓN FLUIDA: Buscamos si el punto tiene instrucciones especiales de detenerse
+                    WaypointInformativo info = destino.GetComponent<WaypointInformativo>();
+
+                    if (info != null && info.esParadaObligatoria)
+                    {
+                        // Si el punto TIENE el script y está marcado como parada, frena:
+                        estadoActual = AIState.Stopping;
+                        Debug.Log("Bus Rival: Llegué a una parada. Simulo recoger gente por 3 seg...");
+                    }
+                    else
+                    {
+                        // Si NO está marcado (es solo una curva en la calle), pasa de largo a máxima velocidad:
+                        estadoActual = AIState.Leaving;
+                    }
+
                     tiempoEspera = 0f;
                 }
                 break;

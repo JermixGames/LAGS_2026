@@ -27,7 +27,7 @@ public class PassengerSystem : MonoBehaviour
     void Start()
     {
         // Generar metas aleatorias desde el inicio al arrancar el nivel
-        metaPasajeros = Random.Range(15, 30);
+        metaPasajeros = Random.Range(30, 100);
         metaDinero = metaPasajeros * 25; // Asumimos 25 centavos el pasaje
 
         Debug.Log($"📋 METAS DE HOY: Llevar {metaPasajeros} pasajeros a la terminal y hacer ${metaDinero} centavos.");
