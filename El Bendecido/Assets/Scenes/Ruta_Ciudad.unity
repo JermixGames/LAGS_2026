@@ -5554,8 +5554,8 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1694294895}
   - {fileID: 169334331}
+  - {fileID: 1694294895}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &306060028
@@ -33093,6 +33093,7 @@ GameObject:
   - component: {fileID: 1694294894}
   - component: {fileID: 1694294893}
   - component: {fileID: 1694294896}
+  - component: {fileID: 1694294897}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -33218,6 +33219,29 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &1694294897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1694294892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28ad2fe3513acf44cba17be921035845, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DynamicBusCamera
+  busController: {fileID: 306060021}
+  offset: {x: 0, y: 4.5, z: -12}
+  smoothSpeed: 10
+  rotationSmoothSpeed: 10
+  fovBase: 60
+  fovMaximo: 85
+  velocidadParaFovMaximo: 100
+  maxTiltAngle: 5
+  tiltSmoothSpeed: 5
+  shakeIntensityMax: 0.15
+  velocidadParaShake: 70
 --- !u!1 &1711052934
 GameObject:
   m_ObjectHideFlags: 0
