@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9d037c8a40a4cd42be6da7f6c8767ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PoliceAI
-  objetivo: {fileID: 0}
+  objetivo: {fileID: 7820320454419454212, guid: ce0b7a087c2b8b545ba3e8465602d42b, type: 3}
   estadoActual: 0
   distanciaEscape: 50
   tiempoParaEscapar: 5
