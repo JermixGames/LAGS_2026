@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 // Gestor del "Secretario" o "Pavo" del Diablo Rojo
 public class PassengerSystem : MonoBehaviour
@@ -41,6 +41,10 @@ public class PassengerSystem : MonoBehaviour
         pasajerosActuales += nuevosPasajeros;
         dineroActual += nuevosPasajeros * 25;
 
+        // GAME FEEL: Hacemos Squash and Stretch al bus cuando caen adentro
+        BusEffectsController efectos = Object.FindAnyObjectByType<BusEffectsController>();
+        if (efectos != null) efectos.AplicarSquish();
+
         Debug.Log($"✅ ¡Se subieron {nuevosPasajeros} pasajeros! Llevas {pasajerosActuales} cabezas y {dineroActual} centavos.");
 
         // CONDICIÓN: Si sobrepasamos la capacidad, gritamos
@@ -65,6 +69,10 @@ public class PassengerSystem : MonoBehaviour
         // Dan menos plata (Ej. 10 centavos) porque tuviste mal servicio
         dineroActual += subieronCorriendo * 10;
         pasajerosEnojados++;
+
+        // GAME FEEL: Tambien aplicamos el Squash and Stretch si entran a lo bruto
+        BusEffectsController efectos = Object.FindAnyObjectByType<BusEffectsController>();
+        if (efectos != null) efectos.AplicarSquish();
 
         Debug.Log($"❌ ¡Te pasaste la parada! Solo saltaron {subieronCorriendo} personas y te pagaron incompleto.");
     }
