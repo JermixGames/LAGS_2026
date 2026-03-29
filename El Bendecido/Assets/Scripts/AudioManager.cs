@@ -9,12 +9,41 @@ public class AudioManager : MonoBehaviour
     public AudioSource vocesSource; // Para el Pavo y Bus Lleno
     public AudioSource sirenaSource; // Audio dedicado de la Policía
 
+    [Header("Música de Ambiente (Playlist)")]
+    public AudioSource musicaSource;
+    public AudioClip[] playlistAmbiental;
+
     [Header("Clips sueltos")]
     public AudioClip choqueClip;
     public AudioClip busLlenoClip;
     void Awake()
     {
         if (Instance == null) Instance = this;
+    }
+    void Start()
+    {
+        if (musicaSource != null && playlistAmbiental.Length > 0)
+        {
+            ReproducirMúsicaRandom();
+        }
+    }
+    void Update()
+    {
+        // Revisa si la música se acabó de reproducir para poner la siguiente
+        if (musicaSource != null && playlistAmbiental.Length > 0)
+        {
+            if (!musicaSource.isPlaying)
+            {
+                ReproducirMúsicaRandom();
+            }
+        }
+    }
+    private void ReproducirMúsicaRandom()
+    {
+        if (musicaSource == null || playlistAmbiental.Length == 0) return;
+        int randomIdx = Random.Range(0, playlistAmbiental.Length);
+        musicaSource.clip = playlistAmbiental[randomIdx];
+        musicaSource.Play();
     }
     // NUEVO MÉTODO BASADO EN EVENTOS PARA EL MOTOR
     public void ActualizarMotor(bool enMovimiento, float factorVelocidad)

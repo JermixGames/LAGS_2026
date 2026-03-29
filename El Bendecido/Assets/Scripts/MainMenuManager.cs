@@ -7,7 +7,7 @@ public class MainMenuManager : MonoBehaviour
 {
     [Header("Configuración de Proyecto")]
     [Tooltip("El nombre exacto de la escena que debe cargar al presionar Jugar. (Ejemplo: City Scene)")]
-    public string nombreEscenaJuego = "City Scene";
+    public string nombreEscenaJuego = "LA-CITY";
     [Header("Paneles Principales")]
     public GameObject panelPrincipal;
     public GameObject panelAjustes;
