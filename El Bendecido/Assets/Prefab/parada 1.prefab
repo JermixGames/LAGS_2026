@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1994068194426037198
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2969002429741476773}
+  m_Layer: 0
+  m_Name: SP-pasajero
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2969002429741476773
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1994068194426037198}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.11, y: 0, z: -0.57}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5163820489535589667}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3504700856099945738
 GameObject:
   m_ObjectHideFlags: 0
@@ -28,11 +59,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3504700856099945738}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.5778694, y: -0.23, z: -0.005706787}
   m_LocalScale: {x: 3, y: 1, z: 3}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2969002429741476773}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7150558942243431033
@@ -127,8 +159,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BusStop
   tiempoRecoleccion: 5
   paradaCompletada: 0
-  pavoPrefab: {fileID: 0}
-  capsulaPasajeroPrefab: {fileID: 0}
+  pavoPrefab: {fileID: 7582864974534298434, guid: a322606eef727f745a6a78c29c40616c, type: 3}
+  capsulaPasajeroPrefab: {fileID: 5288086375397506524, guid: 6fa341f7257a4a749a99f4ab13eae5c6, type: 3}
   puntoSpawnPavo: {fileID: 0}
-  puntosSpawnCapsulas: []
-  audioLlamadoRuta: {fileID: 0}
+  puntosSpawnCapsulas:
+  - {fileID: 0}
+  audioLlamadoRuta: {fileID: 8300000, guid: 50c47931ac1cefd4fba15435a6d96177, type: 3}

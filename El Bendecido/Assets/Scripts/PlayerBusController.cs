@@ -1,12 +1,10 @@
 using UnityEngine;
-
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerBusController : MonoBehaviour
 {
     [Header("Referencias")]
     public InputHandler inputHandler;
     public Rigidbody rb;
-
     [Header("Configuración del Motor")]
     public float fuerzaMotor = 3000f;
     public float velocidadMaximaNormal = 120f; // km/h
@@ -19,9 +17,7 @@ public class PlayerBusController : MonoBehaviour
 
     [Header("Datos de Lectura (No modificar)")]
     public float velocidadActualKmh;
-
     private float giroActual;
-
     void Start()
     {
         if (rb == null) rb = GetComponent<Rigidbody>();
@@ -30,24 +26,38 @@ public class PlayerBusController : MonoBehaviour
         rb.centerOfMass = new Vector3(0, -1.5f, 0);
         rb.linearDamping = 0.5f;
     }
-
     void Update()
     {
         velocidadActualKmh = rb.linearVelocity.magnitude * 3.6f;
+        // ---- MANEJO DE EVENTOS DE AUDIO ---- //
 
-        if (inputHandler.tocandoClaxon)
+        // 1. Audio Motor (Basado en movimiento)
+        bool intentandoAcelerarOReversar = Mathf.Abs(inputHandler.aceleracion) > 0.05f && !inputHandler.frenando;
+        float factorVelocidad = velocidadActualKmh / 120f;
+
+        if (AudioManager.Instance != null)
         {
-            Debug.Log("¡PIII PIIII! ¡Avanza pavo!");
+            AudioManager.Instance.ActualizarMotor(intentandoAcelerarOReversar, factorVelocidad);
+            // 2. Audio Claxon (Un solo toque)
+            if (inputHandler.tocandoClaxon)
+            {
+                AudioManager.Instance.TocarClaxon();
+                Debug.Log("¡PIII PIIII! ¡Avanza pavo!");
+            }
+
+            // 3. Audio Freno (Solo inicia al presionar la tecla)
+            if (inputHandler.empezoAFrenar && rb.linearVelocity.magnitude > 1f)
+            {
+                AudioManager.Instance.TocarFreno();
+            }
         }
     }
-
     void FixedUpdate()
     {
         MoverBus();
         GirarBus();
         AplicarFriccionLateralYFrenado();
     }
-
     private void MoverBus()
     {
         // Solo podemos motorizar el bus si NO estamos pisando el botón de Freno (Barra Espaciadora)
@@ -55,7 +65,6 @@ public class PlayerBusController : MonoBehaviour
         {
             bool vaHaciaAdelante = inputHandler.aceleracion > 0;
             bool vaHaciaAtras = inputHandler.aceleracion < 0; // Cuando presionas la "S"
-
             // Avanzar hacia adelante con límite de 120 km/h
             if (vaHaciaAdelante && velocidadActualKmh < velocidadMaximaNormal)
             {
@@ -68,22 +77,18 @@ public class PlayerBusController : MonoBehaviour
             }
         }
     }
-
     private void GirarBus()
     {
         if (rb.linearVelocity.magnitude > 1f)
         {
             float giroDeseado = inputHandler.giro * velocidadGiro;
             giroActual = Mathf.Lerp(giroActual, giroDeseado, Time.fixedDeltaTime * retrasoGiro);
-
             float direccionVelocidad = Vector3.Dot(rb.linearVelocity.normalized, transform.forward);
             float multiplicadorReversa = (direccionVelocidad < -0.1f) ? -1f : 1f;
-
             Quaternion rotacion = Quaternion.Euler(Vector3.up * giroActual * multiplicadorReversa * Time.fixedDeltaTime);
             rb.MoveRotation(rb.rotation * rotacion);
         }
     }
-
     private void AplicarFriccionLateralYFrenado()
     {
         // FRENADO CON EL BOTÓN EXCLUSIVO (Barra Espaciadora)
@@ -92,7 +97,6 @@ public class PlayerBusController : MonoBehaviour
             rb.AddForce(-rb.linearVelocity.normalized * fuerzaFrenado);
             Debug.Log("Frenando fuerte...");
         }
-
         // Evita que derrape
         Vector3 velocidadLateral = Vector3.Project(rb.linearVelocity, transform.right);
         rb.linearVelocity -= velocidadLateral * 0.95f;

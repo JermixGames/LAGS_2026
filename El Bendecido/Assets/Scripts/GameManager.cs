@@ -1,24 +1,24 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 using UnityEngine.SceneManagement;
-
 public class GameManager : MonoBehaviour
 {
-    // Usamos el patrÛn "Singleton" para que cualquier otro script pueda comunicarse 
-    // con el GameManager f·cilmente usando: GameManager.Instance.Metodo();
+    // Usamos el patr√≥n "Singleton" para que cualquier otro script pueda comunicarse 
+    // con el GameManager f√°cilmente usando: GameManager.Instance.Metodo();
     public static GameManager Instance;
-
-    // AquÌ definimos los posibles estados en los que puede estar tu juego.
+    // Aqu√≠ definimos los posibles estados en los que puede estar tu juego.
     public enum GameState
     {
-        Init,       // Cuando la escena apenas est· cargando
-        Playing,    // Cuando est·s jugando y manejando el bus
+        Init,       // Cuando la escena apenas est√° cargando
+        Playing,    // Cuando est√°s jugando y manejando el bus
         GameOver,   // Cuando pierdes (ej. chocas mucho oa los pasajeros se enojan)
-        Win         // Cuando llegas a la ˙ltima parada y cumples tus metas
+        Win         // Cuando llegas a la √∫ltima parada y cumples tus metas
     }
 
+    [Header("Paneles de UI")]
+    public GameObject panelVictoria;
+    public GameObject panelDerrota;
     [Header("Estado Actual del Juego")]
     public GameState estadoActual;
-
     void Awake()
     {
         // Configuramos el Singleton
@@ -28,56 +28,73 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            // Si por alg˙n motivo se duplica el GameManager, destruimos la copia
+            // Si por alg√∫n motivo se duplica el GameManager, destruimos la copia
             Destroy(gameObject);
         }
     }
-
     void Start()
     {
         // Apenas empieza la "City Scene", iniciamos el juego
         IniciarJuego();
     }
-
     public void IniciarJuego()
     {
         estadoActual = GameState.Playing;
 
         // Nos aseguramos de que el tiempo corra de forma normal a velocidad 1
-        // (Por si acaso quedÛ congelado tras salir del men˙ de pausa)
+        // (Por si acaso qued√≥ congelado tras salir del men√∫ de pausa)
         Time.timeScale = 1f;
 
-        Debug.Log("GameManager: °El juego ha comenzado. Arranca el Diablo Rojo!");
+        Debug.Log("GameManager: ¬°El juego ha comenzado. Arranca el Diablo Rojo!");
     }
-
     public void ActivarGameOver()
     {
-        // Si ya perdimos, ignoramos el resto para no repetir el cÛdigo
-        if (estadoActual == GameState.GameOver) return;
+        if (estadoActual == GameState.GameOver || estadoActual == GameState.Win) return;
 
         estadoActual = GameState.GameOver;
-        Debug.Log("GameManager: °Has perdido! Game Over.");
-
-        // TODO: M·s adelante aquÌ activaremos la pantalla de Game Over y pausaremos
+        Debug.Log("üõë GameManager: ¬°HAS PERDIDO! GAME OVER.");
+        if (panelDerrota != null) panelDerrota.SetActive(true);
+        Time.timeScale = 0f;
     }
-
     public void ActivarVictoria()
     {
-        // Si ya ganamos, ignoramos
-        if (estadoActual == GameState.Win) return;
+        if (estadoActual == GameState.Win || estadoActual == GameState.GameOver) return;
 
-        estadoActual = GameState.Win;
-        Debug.Log("GameManager: °Has ganado la carrera!");
+        // REGLAS: Se evaluar√°n 3 cosas:
+        // - Llegar primero (si esta funci√≥n es llamada, el jugador lleg√≥ primero y no la IA)
+        // - Cumplir cuota de Pasajeros
+        // - Cumplir cuota de Dinero
+        bool victoriaPasajeros = PassengerSystem.Instance.pasajerosActuales >= PassengerSystem.Instance.metaPasajeros;
+        bool victoriaDinero = PassengerSystem.Instance.dineroActual >= PassengerSystem.Instance.metaDinero;
 
-        // TODO: M·s adelante aquÌ activaremos el panel de Victoria y daremos el resumen
+        if (victoriaPasajeros && victoriaDinero)
+        {
+            estadoActual = GameState.Win;
+            Debug.Log("üèÜ GameManager: ¬°VICTORIA ABSOLUTA! Llegaste primero y cumpliste doble cuota.");
+            if (panelVictoria != null) panelVictoria.SetActive(true);
+        }
+        else
+        {
+            estadoActual = GameState.GameOver; // Empate o Perdi√≥ porque no cumpli√≥ cuotas
+            Debug.Log($"‚ö†Ô∏è GameManager: Llegaste primero pero... Pasajeros: {victoriaPasajeros}, Dinero: {victoriaDinero}. ¬°META INCUMPLIDA!");
+            if (panelDerrota != null) panelDerrota.SetActive(true);
+        }
+        Time.timeScale = 0f;
     }
-
     public void VolverAlMenuPrincipal()
     {
         // Siempre, SIEMPRE descongelar el tiempo antes de cambiar de escena
         Time.timeScale = 1f;
 
-        // El Men˙ Principal suele ser la Escena 0 en el "Build Settings"
+        // El Men√∫ Principal suele ser la Escena 0 en el "Build Settings"
         SceneManager.LoadScene(0);
     }
+    public void ReiniciarNivelActual()
+    {
+        // Descongelar el tiempo para el nuevo juego
+        Time.timeScale = 1f;
+        // Recargar la escena actual independientemente de su ID
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }
+

@@ -22,12 +22,12 @@ public class UIManager : MonoBehaviour
         if (PassengerSystem.Instance != null && txtPasajeros != null)
         {
             // Muestra: Pasajeros: 15 / Meta: 30
-            txtPasajeros.text = $"Pasajeros: {PassengerSystem.Instance.pasajerosActuales} / {PassengerSystem.Instance.metaPasajeros}";
+            txtPasajeros.text = $": {PassengerSystem.Instance.pasajerosActuales} / {PassengerSystem.Instance.metaPasajeros}";
 
             // Dinero: $5.00 / Meta: $7.50
-            txtDinero.text = $"Dinero: ${PassengerSystem.Instance.dineroActual / 100f:F2} / ${(PassengerSystem.Instance.metaDinero / 100f):F2}";
+            txtDinero.text = $": ${PassengerSystem.Instance.dineroActual / 100f:F2} / ${(PassengerSystem.Instance.metaDinero / 100f):F2}";
 
-            txtNitro.text = $"Nitros: {PassengerSystem.Instance.cargasDeNitro}";
+            txtNitro.text = $": {PassengerSystem.Instance.cargasDeNitro}";
         }
     }
 }

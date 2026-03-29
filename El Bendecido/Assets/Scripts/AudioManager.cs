@@ -1,60 +1,53 @@
 using UnityEngine;
-
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
-
     [Header("Asigna tus AudioSources aquí (En el inspector)")]
     public AudioSource motorSource;
     public AudioSource claxonSource;
     public AudioSource frenoSource;
     public AudioSource vocesSource; // Para el Pavo y Bus Lleno
+    public AudioSource sirenaSource; // Audio dedicado de la Policía
 
     [Header("Clips sueltos")]
     public AudioClip choqueClip;
     public AudioClip busLlenoClip;
-
-    private PlayerBusController playerBus;
-
     void Awake()
     {
         if (Instance == null) Instance = this;
     }
-
-    void Update()
+    // NUEVO MÉTODO BASADO EN EVENTOS PARA EL MOTOR
+    public void ActualizarMotor(bool enMovimiento, float factorVelocidad)
     {
-        if (playerBus == null)
-        {
-            // Busca al Diablo Rojo automáticamente en la escena
-            var p = Object.FindAnyObjectByType<PlayerBusController>();
-            if (p != null) playerBus = p;
-            return;
-        }
+        if (motorSource == null) return;
 
-        // Variar el "ronroneo" del motor según la velocidad del bus, como en los juegos Arcade
-        if (motorSource != null && motorSource.isPlaying)
+        if (enMovimiento)
         {
-            float pitch = 1f + (playerBus.velocidadActualKmh / 120f) * 1.5f;
-            motorSource.pitch = Mathf.Clamp(pitch, 1f, 3f);
+            // Solo darle Play si no estaba sonando ya (evita tartamudeos)
+            if (!motorSource.isPlaying) motorSource.Play();
+
+            // Variar el tono para que suene como un motor revolucionando
+            motorSource.pitch = Mathf.Clamp(1f + (factorVelocidad * 1.5f), 1f, 3f);
+        }
+        else
+        {
+            // Apaga el motor automáticamente si el bus no se mueve
+            if (motorSource.isPlaying) motorSource.Stop();
         }
     }
-
     public void TocarClaxon()
     {
         if (claxonSource != null && !claxonSource.isPlaying) claxonSource.Play();
     }
-
     public void TocarFreno()
     {
         if (frenoSource != null && !frenoSource.isPlaying) frenoSource.Play();
     }
-
     public void TocarChoque()
     {
         if (motorSource != null && choqueClip != null)
             motorSource.PlayOneShot(choqueClip);
     }
-
     public void ReproducirAudioEspecial(AudioClip clip)
     {
         if (vocesSource != null && clip != null)
@@ -65,5 +58,13 @@ public class AudioManager : MonoBehaviour
     {
         if (vocesSource != null && busLlenoClip != null)
             vocesSource.PlayOneShot(busLlenoClip);
+    }
+    public void TocarSirenaPolicia()
+    {
+        if (sirenaSource != null && !sirenaSource.isPlaying) sirenaSource.Play();
+    }
+    public void DetenerSirenaPolicia()
+    {
+        if (sirenaSource != null && sirenaSource.isPlaying) sirenaSource.Stop();
     }
 }

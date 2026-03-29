@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-
 // AJUSTE 1: POLICE SYSTEM (TRIGGER-BASED SPEED CHECK)
 public class SpeedTrap : MonoBehaviour
 {
@@ -9,14 +8,11 @@ public class SpeedTrap : MonoBehaviour
     [Header("Referencias Policiales")]
     public GameObject patrullaPrefab;
     public Transform puntoDeSpawn; // Dónde se esconde el policía
-
     private bool activado = false; // Para evitar que se spawneen 100 policías
-
     void OnTriggerEnter(Collider other)
     {
         // Solo verificamos si no hemos activado la trampa ya
         if (activado) return;
-
         if (other.CompareTag("Player"))
         {
             PlayerBusController bus = other.GetComponentInParent<PlayerBusController>();
@@ -26,12 +22,14 @@ public class SpeedTrap : MonoBehaviour
             {
                 activado = true;
                 Debug.Log($"🚨 ¡EXCESO DE VELOCIDAD! Ibas a {bus.velocidadActualKmh} km/h en zona de {limiteVelocidad}.");
-
                 // Spawn police car
                 if (patrullaPrefab != null && puntoDeSpawn != null)
                 {
                     GameObject patrulla = Instantiate(patrullaPrefab, puntoDeSpawn.position, puntoDeSpawn.rotation);
                     patrulla.tag = "PoliceCar";
+
+                    // Encender alerta de sirena
+                    if (AudioManager.Instance != null) AudioManager.Instance.TocarSirenaPolicia();
 
                     // Asegurarnos de que tenga el script de persecución NavMesh
                     var lince = patrulla.GetComponent<PoliceAI>();

@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 3465252942475315635}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.99983907, z: -0, w: 0.017940857}
-  m_LocalPosition: {x: -0.351, y: -0.316, z: -0.342}
+  m_LocalPosition: {x: -0.57, y: -0.316, z: -0.927}
   m_LocalScale: {x: 0.13, y: 0.13, z: 0.13}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -4863,7 +4863,7 @@ Transform:
   m_GameObject: {fileID: 5049780161977342710}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.99983907, z: -0, w: 0.017940857}
-  m_LocalPosition: {x: 0.427, y: -0.316, z: -0.3528}
+  m_LocalPosition: {x: 0.62, y: -0.316, z: -0.944}
   m_LocalScale: {x: 0.13, y: 0.13, z: 0.13}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -9688,6 +9688,7 @@ GameObject:
   - component: {fileID: 5981665671966896314}
   - component: {fileID: 6667944916527904157}
   - component: {fileID: 676808868272691810}
+  - component: {fileID: 7554640135376547393}
   m_Layer: 0
   m_Name: DibloRojo
   m_TagString: Player
@@ -9710,7 +9711,7 @@ Transform:
   m_Children:
   - {fileID: 3841739549391006790}
   - {fileID: 2096270315109751366}
-  - {fileID: 5333710221972009813}
+  - {fileID: 5998519080640636731}
   - {fileID: 2090608250286552201}
   - {fileID: 6404262477810335096}
   m_Father: {fileID: 0}
@@ -9801,7 +9802,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6412610110691197830}
   serializedVersion: 5
-  m_Mass: 13
+  m_Mass: 60
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -9835,6 +9836,7 @@ MonoBehaviour:
   aceleracion: 0
   giro: 0
   frenando: 0
+  empezoAFrenar: 0
   tocandoClaxon: 0
   usandoNitro: 0
 --- !u!114 &6667944916527904157
@@ -9857,7 +9859,7 @@ MonoBehaviour:
   fuerzaFrenado: 120
   velocidadGiro: 60
   retrasoGiro: 4
-  velocidadActualKmh: 1.14
+  velocidadActualKmh: 0
 --- !u!114 &676808868272691810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9872,6 +9874,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OvercapacitySystem
   penalizacionVelocidadGiro: 30
   intervaloFugaPasajeros: 6
+--- !u!114 &7554640135376547393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6412610110691197830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18c311b59599e1f4c9f0fd4ef4142869, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrafficPoliceCollisionHandler
 --- !u!1 &8701349117110639859
 GameObject:
   m_ObjectHideFlags: 0
@@ -9932,7 +9946,7 @@ Transform:
   m_GameObject: {fileID: 8827307829505835092}
   serializedVersion: 2
   m_LocalRotation: {x: 0.17725651, y: -0, z: -0, w: 0.9841647}
-  m_LocalPosition: {x: 0.014999986, y: 1.22, z: -1.074}
+  m_LocalPosition: {x: 0.37, y: 2.85, z: -2.21}
   m_LocalScale: {x: 0.5, y: 0.42279866, z: 0.21575865}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10064,7 +10078,7 @@ MonoBehaviour:
   tiltSmoothSpeed: 5
   shakeIntensityMax: 0.15
   velocidadParaShake: 70
---- !u!1001 &5333710221972138453
+--- !u!1001 &6103991784268988624
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10072,98 +10086,70 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7820320454419454212}
     m_Modifications:
-    - target: {fileID: 100000, guid: f269a0a343ed94c4e908a388c940ea06, type: 3}
-      propertyPath: m_Name
-      value: Vehicle_Bus_color03
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: f269a0a343ed94c4e908a388c940ea06, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 5f9c3a63a135b0b4a9d889ece8f87ca6, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.28787
+      value: 0.2
       objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: f269a0a343ed94c4e908a388c940ea06, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 5f9c3a63a135b0b4a9d889ece8f87ca6, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.28787
+      value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: f269a0a343ed94c4e908a388c940ea06, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 5f9c3a63a135b0b4a9d889ece8f87ca6, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.115148
+      value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: f269a0a343ed94c4e908a388c940ea06, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 5f9c3a63a135b0b4a9d889ece8f87ca6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.014999986
+      value: -0.015000105
       objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: f269a0a343ed94c4e908a388c940ea06, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 5f9c3a63a135b0b4a9d889ece8f87ca6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.451
+      value: -0.43500012
       objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: f269a0a343ed94c4e908a388c940ea06, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 5f9c3a63a135b0b4a9d889ece8f87ca6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.005000019
+      value: 0.275
       objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: f269a0a343ed94c4e908a388c940ea06, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 5f9c3a63a135b0b4a9d889ece8f87ca6, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: f269a0a343ed94c4e908a388c940ea06, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 5f9c3a63a135b0b4a9d889ece8f87ca6, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.000000021855694
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: f269a0a343ed94c4e908a388c940ea06, type: 3}
-      propertyPath: m_LocalRotation.y
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: f269a0a343ed94c4e908a388c940ea06, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 5f9c3a63a135b0b4a9d889ece8f87ca6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 5f9c3a63a135b0b4a9d889ece8f87ca6, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: f269a0a343ed94c4e908a388c940ea06, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 5f9c3a63a135b0b4a9d889ece8f87ca6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: f269a0a343ed94c4e908a388c940ea06, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 5f9c3a63a135b0b4a9d889ece8f87ca6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: f269a0a343ed94c4e908a388c940ea06, type: 3}
+    - target: {fileID: -8679921383154817045, guid: 5f9c3a63a135b0b4a9d889ece8f87ca6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5f9c3a63a135b0b4a9d889ece8f87ca6, type: 3}
+      propertyPath: m_Name
+      value: bus42
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 65702495048144492, guid: 5f9c3a63a135b0b4a9d889ece8f87ca6, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 100000, guid: f269a0a343ed94c4e908a388c940ea06, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 9025646105866926763}
-  m_SourcePrefab: {fileID: 100100000, guid: f269a0a343ed94c4e908a388c940ea06, type: 3}
---- !u!4 &5333710221972009813 stripped
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5f9c3a63a135b0b4a9d889ece8f87ca6, type: 3}
+--- !u!4 &5998519080640636731 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 400000, guid: f269a0a343ed94c4e908a388c940ea06, type: 3}
-  m_PrefabInstance: {fileID: 5333710221972138453}
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5f9c3a63a135b0b4a9d889ece8f87ca6, type: 3}
+  m_PrefabInstance: {fileID: 6103991784268988624}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &5333710221972172661 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100000, guid: f269a0a343ed94c4e908a388c940ea06, type: 3}
-  m_PrefabInstance: {fileID: 5333710221972138453}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &9025646105866926763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5333710221972172661}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a1ddf54d4dd0ef4b8589352eb4385ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BusEffectsController
-  busController: {fileID: 6667944916527904157}
-  modeloVisual: {fileID: 5333710221972009813}
-  humoLlantas:
-  - {fileID: 8018614721358831214}
-  - {fileID: 6794133084627076512}
-  velocidadMinimaHumo: 20
-  squishScale: {x: 0.2, y: 0.2, z: 0.5}
-  stretchScale: {x: 0.5, y: 0.5, z: 0.5}
-  velocidadRebote: 12
