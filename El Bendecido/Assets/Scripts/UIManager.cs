@@ -16,7 +16,7 @@ public class UIManager : MonoBehaviour
     {
         if (playerBus != null && txtVelocidad != null)
         {
-            txtVelocidad.text = $"{Mathf.RoundToInt(playerBus.velocidadActualKmh)} KM/H";
+            txtVelocidad.text = $"{Mathf.RoundToInt(playerBus.velocidadActualKmh)} ";
         }
 
         if (PassengerSystem.Instance != null && txtPasajeros != null)
